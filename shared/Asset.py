@@ -6,5 +6,4 @@ class Asset:
         self.target = weight 
         self.exchange = exchange
 
-    def loadHistory   
     
