@@ -1,5 +1,6 @@
 import sys                # nopep8
 sys.path.append('config')  # nopep8
+sys.path.append('shared')  # nopep8
 print(sys.path)           # nopep8
 
 import pandas as pd
@@ -10,27 +11,16 @@ import datetime
 import logging
 
 from config import config, assets, save_assets
+from Database import Database 
 
 
 class HistoryUpdateJob:
     """Updates the latest history for a list of assets."""
 
-    def __init__(self, db_config, asset_config):
+    def __init__(self,asset_config, connection):
         """Constructor"""
         self.asset_config = asset_config
-        self.engine = sqlalchemy.create_engine(
-            self.__get_db_engine_url(db_config))
-        self.con = self.engine.connect()
-
-    def __get_db_engine_url(self, db_config):
-        print(db_config)
-        url = "postgresql://{user}:{password}@{host}/{database}".format(
-            user=db_config['user'],
-            password=db_config['password'],
-            host=db_config['host'],
-            database=db_config['database']
-        )
-        return url
+        self.con = connection
 
     def __get_historical_data(self, etf, country, from_date, to_date):
         if to_date is None:
@@ -100,11 +90,12 @@ class HistoryUpdateJob:
                 print("COMPLETE")
                 print("----------------------")
 
-
-db_config = config()
 asset_config = assets()
+db_config = config()
 
-job = HistoryUpdateJob(db_config, asset_config)
-#job.run(from_date="01/01/2000", to_date="31/12/2009")
-#job.run(from_date="01/01/2009", to_date="31/12/2009")
+database = Database(db_config)
+connection = database.get_connection()
+
+job = HistoryUpdateJob(asset_config, connection)
 job.run(from_date="01/01/2000")
+save_assets(asset_config)
