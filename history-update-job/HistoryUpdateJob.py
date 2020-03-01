@@ -1,3 +1,7 @@
+import sys                          #nopep8
+sys.path.append('configuration')    #nopep8
+sys.path.append('shared')           #nopep8
+
 import pandas as pd
 import psycopg2
 import sqlalchemy
@@ -5,8 +9,8 @@ import investpy
 import datetime
 import logging
 
-from shared.Database import Database
-from configuration.config import config, assets, save_assets
+from Database import Database
+from config import config, assets, save_assets
 
 
 class HistoryUpdateJob:
