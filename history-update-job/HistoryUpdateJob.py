@@ -1,8 +1,3 @@
-import sys                # nopep8
-sys.path.append('config')  # nopep8
-sys.path.append('shared')  # nopep8
-print(sys.path)           # nopep8
-
 import pandas as pd
 import psycopg2
 import sqlalchemy
@@ -10,8 +5,8 @@ import investpy
 import datetime
 import logging
 
-from config import config, assets, save_assets
-from Database import Database 
+from shared.Database import Database
+from configuration.config import config, assets, save_assets
 
 
 class HistoryUpdateJob:
@@ -90,12 +85,15 @@ class HistoryUpdateJob:
                 print("COMPLETE")
                 print("----------------------")
 
-asset_config = assets()
-db_config = config()
 
-database = Database(db_config)
-connection = database.get_connection()
+if __name__ == '__main__':
+        
+    asset_config = assets()
+    db_config = config()
 
-job = HistoryUpdateJob(asset_config, connection)
-job.run(from_date="01/01/2000")
-save_assets(asset_config)
+    database = Database(db_config)
+    connection = database.get_connection()
+
+    job = HistoryUpdateJob(asset_config, connection)
+    job.run(from_date="01/01/2000")
+    save_assets(asset_config)
