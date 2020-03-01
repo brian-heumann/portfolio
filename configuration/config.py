@@ -2,7 +2,7 @@
 from configparser import ConfigParser
 
 
-def config(filename='config/database.ini', section='postgresql'):
+def config(filename='configuration/database.ini', section='postgresql'):
     parser = ConfigParser()
     parser.read(filename)
 
@@ -18,7 +18,7 @@ def config(filename='config/database.ini', section='postgresql'):
     return db
 
 
-def assets(filename='config/assets.ini'):
+def assets(filename='configuration/assets.ini'):
     parser = ConfigParser()
     parser.read(filename)
 
@@ -35,7 +35,7 @@ def assets(filename='config/assets.ini'):
     return assets
 
 
-def save_assets(assets, filename='config/assets.ini'):
+def save_assets(assets, filename='configuration/assets.ini'):
     parser = ConfigParser()
     parser.read(filename)
 
