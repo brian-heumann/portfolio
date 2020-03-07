@@ -19,3 +19,6 @@ class Database:
         """Get a new connecton to the database
             - Returns a connection object"""
         return self.engine.connect()
+
+    def close(self):
+        self.engine.dispose()
